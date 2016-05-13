@@ -19,23 +19,22 @@ solvers
 {
     p
     {
-        solver          	GAMG;
-        tolerance       	1e-10;
-        relTol          	0.01;
-        smoother        	GaussSeidel;
-        cacheAgglomeration 	off;
-        nCellsInCoarsestLevel 	20;
-        agglomerator    	faceAreaPair;
-        mergeLevels     	1;
+        solver                GAMG;
+        tolerance             1e-10;
+        relTol                0.05;
+        smoother              GaussSeidel;
+        cacheAgglomeration    off;
+        nCellsInCoarsestLevel 20;
+        agglomerator          faceAreaPair;
+        mergeLevels           1;
     }
 
     U
     {
         solver          PBiCG;
 	preconditioner  DILU;
-        tolerance       1e-09;
+        tolerance       1e-08;
         relTol          0.1;
-	minIter		1;
     }
 
     "(k|epsilon|H|Z|Zvar)"
@@ -44,7 +43,6 @@ solvers
 	preconditioner  DILU;
         tolerance       1e-09;
         relTol          0.1;
-	minIter		1;
     }
 }
 
