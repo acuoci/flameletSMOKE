@@ -11,8 +11,16 @@ if (transonic)
         "phid",
         fvc::interpolate(psi)
        *(
-            (fvc::interpolate(U) & mesh.Sf())
-          + fvc::ddtPhiCorr(rUA, rho, U, phi)
+            	(fvc::interpolate(U) & mesh.Sf())
+		#if OPENFOAM_VERSION == 22
+			+ fvc::ddtPhiCorr(rUA, rho, U, phi)
+		#elif OPENFOAM_VERSION == 23
+			+ fvc::interpolate(rUA)*fvc::ddtCorr(rho, U, phi)
+		#elif OPENFOAM_VERSION == 24
+			+ fvc::interpolate(rUA)*fvc::ddtCorr(rho, U, phi)
+		#else
+			Compilation_Error_You_Did_Not_Define_The_OPENFOAM_VERSION_Macro
+		#endif
         )
     );
 
@@ -35,12 +43,19 @@ if (transonic)
 }
 else
 {
-
     phi =
         fvc::interpolate(rho)*
         (
-            (fvc::interpolate(U) & mesh.Sf())
-          + fvc::ddtPhiCorr(rUA, rho, U, phi)
+            	(fvc::interpolate(U) & mesh.Sf())
+		#if OPENFOAM_VERSION == 22
+			+ fvc::ddtPhiCorr(rUA, rho, U, phi)
+		#elif OPENFOAM_VERSION == 23
+			+ fvc::interpolate(rUA)*fvc::ddtCorr(rho, U, phi)
+		#elif OPENFOAM_VERSION == 24
+			+ fvc::interpolate(rUA)*fvc::ddtCorr(rho, U, phi)
+		#else
+			Compilation_Error_You_Did_Not_Define_The_OPENFOAM_VERSION_Macro
+		#endif   
         );
 
     for (int nonOrth=0; nonOrth<=nNonOrthCorr; nonOrth++)

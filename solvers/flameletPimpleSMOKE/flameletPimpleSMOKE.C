@@ -50,6 +50,9 @@ int main(int argc, char *argv[])
     #include "createMesh.H"
     #include "readMassFlowProperties.H"
     #include "readGravitationalAcceleration.H"
+    
+    pimpleControl pimple(mesh);
+
     #include "createFields.H"
     #include "createFvOptions.H"
     #include "initContinuityErrs.H"
@@ -57,7 +60,7 @@ int main(int argc, char *argv[])
     #include "compressibleCourantNo.H"
     #include "setInitialDeltaT.H"
 
-    pimpleControl pimple(mesh);
+    
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
