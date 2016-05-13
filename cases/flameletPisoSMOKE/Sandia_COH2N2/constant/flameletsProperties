@@ -1,0 +1,56 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.2;
+    format      binary;
+    class       dictionary;
+    location    "constant";
+    object      flameletsProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+	//- Path to flamelet library
+	libraryPath		"../../lookUpTableGeneration/Sandia_COH2N2/library/OutputXML";
+
+	//- Adiabatic mode
+	adiabaticMode		off;
+
+	//- Transport equation for mixture fraction variance
+	varianceEquation 	off;
+
+	//- Equation constants
+	sigmat 		0.85;	// default: 0.85
+	Cg		2.86;	// default: 2.86
+	Cd		2.00;	// default: 2.00
+	Cx		2.00;	// default: 2.00
+
+	//- PDF of scalar dissipation rate: dirac | logNormal
+	pdf 			"dirac";		
+	sigma			1.31;		// scale factor for the log-normal: default 1.31
+
+	//- LookUpTable extraction after <n> iterations
+	propertyUpdate			5;
+	massFractionsUpdate		50;
+	species				"H2O";
+
+	//- Output modes
+	showFlamelet			off;
+	showFlameletLibrary		off;
+	monitoring			off;
+
+	//- Radiation model (only for free stream flames)
+	radiationMode		on;
+	Tenv			Tenv	[0 0 0 1 0 0 0]   292.15;
+
+	//- Turbulence: k-e model
+	k_small			k_small 	[0 2 -2 0 0 0 0]   1.e-6;
+	epsilon_small		epsilon_small 	[0 2 -3 0 0 0 0]   1.e-6;
+	
+// ************************************************************************* //
+

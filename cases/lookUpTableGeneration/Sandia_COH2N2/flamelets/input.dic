@@ -1,0 +1,66 @@
+//-----------------------------------------------------------------//
+//     ____                    ______ __  __  ____  _  ________    //
+//    / __ \                  /  ___ |  \/  |/ __ \| |/ /  ____|   //
+//   | |  | |_ __   ___ _ __ |  (___ | \  / | |  | | ' /| |__      //
+//   | |  | | '_ \ / _ \ '_ \ \___  \| |\/| | |  | |  < |  __|     //
+//   | |__| | |_) |  __/ | | |____)  | |  | | |__| | . \| |____    //
+//    \____/| .__/ \___|_| |_|______/|_|  |_|\____/|_|\_\______|   //
+//         | |                                                     //
+//         |_|                                                     //
+//                                                                 //
+//                http://www.opensmoke.polimi.it/                  //
+//             http://creckmodeling.chem.polimi.it/                //
+//-----------------------------------------------------------------//
+
+Dictionary LaminarFlamelets
+{
+	@KineticsPreProcessor			kinetics;
+	
+	@FuelSide				fuel-side;
+	@OxidizerSide				oxidizer-side;
+	@StoichiometricScalarDissipationRates	1e-5 1e-4 1e-3 1e-2 1e-1 1 2 3 5 8 10 20 30 50 75 100 150 200 300 400 Hz;
+	@EnthalpyDefects			5 10 15 30 50 80 100 150 250 500 kJ/kg;
+
+	@Grid		grid;
+	
+	@Output		Output;
+	
+	@UseOdeSolver	true;
+	@UseNlsSolver	false;
+}
+
+Dictionary kinetics
+{
+	@Output			kinetics;
+
+	@Kinetics		../kinetics/POLIMI_H2CO_1412.CKI;	
+	@Thermodynamics		../kinetics/POLIMI_TOT_NOX_1412.CKT;
+	@Transport 		../kinetics/POLIMI_TOT_NOX_1412.TRC;
+}
+
+Dictionary fuel-side
+{
+	@MoleFractions		CO 0.4	H2 0.3	N2 0.3; 				
+	@Temperature		292.15 K;
+	@Pressure		1 atm;
+}
+
+Dictionary oxidizer-side
+{
+	@MoleFractions		O2 0.2075098	N2 0.7806324	H2O 0.0118577;				
+	@Temperature		290.15 K;
+	@Pressure		1 atm;
+}
+
+Dictionary grid
+{
+	@Length				1 m;
+	@InitialPoints			50;
+	@Type				equispaced;
+	
+	@MaxPoints			500;
+	@MaxAdaptivePoints		15;
+	@GradientCoefficient		0.1;
+	@CurvatureCoefficient		1;
+}
+

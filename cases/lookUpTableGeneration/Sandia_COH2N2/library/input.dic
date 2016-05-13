@@ -1,0 +1,31 @@
+//-----------------------------------------------------------------//
+//     ____                    ______ __  __  ____  _  ________    //
+//    / __ \                  /  ___ |  \/  |/ __ \| |/ /  ____|   //
+//   | |  | |_ __   ___ _ __ |  (___ | \  / | |  | | ' /| |__      //
+//   | |  | | '_ \ / _ \ '_ \ \___  \| |\/| | |  | |  < |  __|     //
+//   | |__| | |_) |  __/ | | |____)  | |  | | |__| | . \| |____    //
+//    \____/| .__/ \___|_| |_|______/|_|  |_|\____/|_|\_\______|   //
+//         | |                                                     //
+//         |_|                                                     //
+//                                                                 //
+//                http://www.opensmoke.polimi.it/                  //
+//             http://creckmodeling.chem.polimi.it/                //
+//-----------------------------------------------------------------//
+
+Dictionary LookUpTables
+{
+	@KineticsPreProcessor	KineticMechanism;
+	
+	@Input			/home/chimica2/cuoci/OpenFOAM/cuoci-2.2.x/mySolvers/flameletSMOKE/cases/flameletSimpleSMOKE/Sandia_COH2N2/lookUpTableGeneration/flamelets/Output;
+	@OutputASCII 		Output;
+	@OutputLookUpTable	OutputXML;
+}
+
+Dictionary KineticMechanism
+{
+	@Kinetics		../kinetics/POLIMI_H2CO_1412.CKI;	
+	@Thermodynamics		../kinetics/POLIMI_TOT_NOX_1412.CKT;
+	@Transport 		../kinetics/POLIMI_TOT_NOX_1412.TRC;
+		
+	@Output			kinetics;
+}

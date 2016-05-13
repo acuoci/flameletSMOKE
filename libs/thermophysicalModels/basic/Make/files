@@ -1,0 +1,4 @@
+flameletSMOKEThermo/flameletSMOKEThermo.C
+flameletSMOKEThermo/flameletSMOKEThermos.C
+
+LIB = $(FOAM_USER_LIBBIN)/libflameletSMOKEThermophysicalModels
