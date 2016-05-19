@@ -3,12 +3,12 @@ fvScalarMatrix ZEqn
 (
 	(
 		fvm::div(phi, Z)
-//	      - fvm::Sp(fvc::div(phi), Z)
 	      - fvm::laplacian(turbulence->muEff()/sigmat, Z)
 	)
 );
 
 ZEqn.relax();
+fvOptions.constrain(ZEqn);
 ZEqn.solve(mesh.solver("Z"));
 
 if (varianceEquation == false)
@@ -18,7 +18,6 @@ if (varianceEquation == false)
 	(
 		(
 		    fvm::div(phi, Zvar)
-//		  - fvm::Sp(fvc::div(phi), Zvar)
 		  - fvm::laplacian(turbulence->mut()/sigmat, Zvar)
 		  - Cg*turbulence->mut()*magSqr(fvc::grad(Z))
 		  + Cd*rho*turbulence->epsilon()/(turbulence->k()+k_small)*Zvar
@@ -26,6 +25,7 @@ if (varianceEquation == false)
 	);
 
 	ZvarEqn.relax();
+	fvOptions.constrain(ZvarEqn);
 	ZvarEqn.solve(mesh.solver("Zvar"));
 }
 else

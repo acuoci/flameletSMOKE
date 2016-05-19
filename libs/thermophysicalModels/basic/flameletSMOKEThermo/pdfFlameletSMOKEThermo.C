@@ -525,17 +525,6 @@ void Foam::pdfFlameletSMOKEThermo<BasicFlameletSMOKEThermo, MixtureType>::errorM
 	getchar();
 }
 
-template<class BasicFlameletSMOKEThermo, class MixtureType>
-void Foam::pdfFlameletSMOKEThermo<BasicFlameletSMOKEThermo, MixtureType>::infoMessage() const
-{
-	Info << "/*-------------------------------------*\\" << endl <<
-			"|    Flamelet Thermo initialization     |" << endl <<
-			"|                                       |" << endl <<
-			"|   Rebuild by Tobias Holzmann M.Eng.   |" << endl <<
-			"|          www.Holzmann-cfd.de          |" << endl <<
-			"\\*-------------------------------------*/" << endl << endl;
-}
-
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class BasicFlameletSMOKEThermo, class MixtureType>
@@ -675,9 +664,6 @@ Foam::pdfFlameletSMOKEThermo<BasicFlameletSMOKEThermo, MixtureType>::pdfFlamelet
     showFlameletLibrary(false)
 
 {
-	//- Info message
-	infoMessage();
-
 	//- Get fixedValue enthalpy boundaries
 	Info << "Enthalpy:" << endl;
 	forAll(this->H_.boundaryField(), patchi)

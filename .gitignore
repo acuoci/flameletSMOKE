@@ -7,6 +7,15 @@
 linux64GccDPOpt/
 lnInclude/
 
+# OpenFOAM #
+############
+*.case
+boundary
+neighbour
+owner
+points
+faces
+
 # Compiled source #
 ###################
 *.com

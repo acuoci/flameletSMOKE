@@ -17,6 +17,14 @@ FoamFile
 
 solvers
 {
+    rho
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-6;
+        relTol          0.01;
+    }
+
     p
     {
         solver                GAMG;
@@ -34,7 +42,7 @@ solvers
         solver          PBiCG;
 	preconditioner  DILU;
         tolerance       1e-08;
-        relTol          0.1;
+        relTol          0.01;
     }
 
     "(k|epsilon|H|Z|Zvar)"
@@ -42,8 +50,10 @@ solvers
         solver          PBiCG;
 	preconditioner  DILU;
         tolerance       1e-09;
-        relTol          0.1;
+        relTol          0.01;
     }
+
+
 }
 
 PISO
@@ -52,14 +62,16 @@ PISO
 
     residualControl
     {
-        p               1e-5;
-        U               1e-6;
-        H               1e-6;
+        p               1e-7;
+        U               1e-7;
+        H               1e-7;
+	Z		1e-7;
+	Zvar		1e-7;
 
         // possibly check turbulence fields
-        "(k|epsilon|omega)" 1e-3;
+        "(k|epsilon|omega)" 1e-5;
     }
 }
 
-
 // ************************************************************************* //
+

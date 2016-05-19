@@ -23,12 +23,16 @@ License
     Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Application
-    rhoPisoFoam
+    flameletPisoSMOKE
 
 Description
     Transient PISO solver for compressible, laminar or turbulent flow.
 
 \*---------------------------------------------------------------------------*/
+
+#if OPENFOAM_VERSION == 30
+	The_flameletPisoSMOKE_Solver_Is_Not_Available_For_OpenFOAM_3_Or_Higher
+#endif
 
 #include "fvCFD.H"
 #include "flameletSMOKEThermo.H"
@@ -54,8 +58,7 @@ int main(int argc, char *argv[])
     #include "compressibleCourantNo.H"
     #include "setInitialDeltaT.H"
 
-
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// ************************************************************************* //
 
     Info<< "\nStarting time loop\n" << endl;
 
@@ -70,10 +73,9 @@ int main(int argc, char *argv[])
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
-//        #include "rhoEqn.H"
+        #include "rhoEqn.H"
         #include "UEqn.H"
 	
-
         // --- PISO loop
         for (int corr = 1; corr <= nCorr; corr++)
         {
@@ -91,15 +93,14 @@ int main(int argc, char *argv[])
 	#include "writeMassFlow.H"
 	#include "outputVariables.H"
 
-        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
+        Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+             << nl << endl;
     }
 
     Info<< "End\n" << endl;
 
     return 0;
 }
-
 
 // ************************************************************************* //

@@ -69,9 +69,6 @@ class pdfFlameletSMOKEThermo
     	//- Errormessage
     	void errorMessage(const string message);
 
-    	//- Infomessage
-    	void infoMessage() const;
-
         //- Construct as copy (not implemented)
         pdfFlameletSMOKEThermo(const pdfFlameletSMOKEThermo<BasicFlameletSMOKEThermo, MixtureType>&);
 

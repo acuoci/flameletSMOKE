@@ -25,13 +25,15 @@ boundaryField
     {
         type            zeroGradient;
     }
-
     inletair           
     {
         type            zeroGradient;
     }
-
-    "outlet|sidewall"
+    outlet
+    {
+        type            zeroGradient;
+    }
+    sidewall
     {
         type            totalPressure;
 	p0		$internalField;
@@ -41,22 +43,18 @@ boundaryField
 	gamma		0;
         value           $internalField;
     }
-
     burnerwall       
     {
         type            zeroGradient;
     }
-
-    front    
+    front
     {
         type            wedge;
     }
-
-    back   
+    back
     {
         type            wedge;
     }
-
     axis
     {
         type            empty;

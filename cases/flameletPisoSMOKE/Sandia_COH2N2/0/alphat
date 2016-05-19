@@ -23,12 +23,12 @@ boundaryField
 {
     inletfuel
     {
-        type            calculated;
+        type            fixedValue;
         value           uniform 0;
     }
     inletair
     {
-        type            calculated;
+        type            fixedValue;
         value           uniform 0;
     }
     outlet
@@ -36,14 +36,9 @@ boundaryField
         type            calculated;
         value           uniform 0;
     }
-    axis
-    {
-        type            empty;
-    }
     sidewall
     {
-        type            compressible::alphatWallFunction;
-        Prt             0.85;
+        type            calculated;
         value           uniform 0;
     }
     burnerwall
@@ -59,6 +54,10 @@ boundaryField
     back
     {
         type            wedge;
+    }
+    axis
+    {
+        type            empty;
     }
 }
 

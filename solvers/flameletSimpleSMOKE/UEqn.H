@@ -1,18 +1,11 @@
-    // Solve the Momentum equation
-
-    tmp<fvVectorMatrix> UEqn
-    (
-        fvm::div(phi, U)
-      + turbulence->divDevRhoReff(U)
-     ==
-        rho*g
-      + fvOptions(rho, U)
-    );
-
-    UEqn().relax();
-
-    fvOptions.constrain(UEqn());
-
-    solve(UEqn() == -fvc::grad(p));
-
-    fvOptions.correct(U);
+#if OPENFOAM_VERSION == 22
+	#include "UEqn.2x.H"
+#elif OPENFOAM_VERSION == 23
+	#include "UEqn.2x.H"
+#elif OPENFOAM_VERSION == 24
+	#include "UEqn.2x.H"
+#elif OPENFOAM_VERSION == 30
+	#include "UEqn.3x.H"
+#else
+	Compilation_Error_You_Did_Not_Define_The_OPENFOAM_VERSION_Macro
+#endif

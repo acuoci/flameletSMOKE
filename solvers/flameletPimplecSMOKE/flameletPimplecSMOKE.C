@@ -80,9 +80,9 @@ int main(int argc, char *argv[])
         while (pimple.loop())
         {
             #include "UEqn.H"
+            #include "ZEqn.H"
             #include "HEqn.H"
-	    #include "ZEqn.H"
-
+	    
             // --- Pressure corrector loop
             while (pimple.correct())
             {
@@ -102,9 +102,9 @@ int main(int argc, char *argv[])
 	#include "writeMassFlow.H"
 	#include "outputVariables.H"
 
-        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
+        Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+             << nl << endl;
     }
 
     Info<< "End\n" << endl;

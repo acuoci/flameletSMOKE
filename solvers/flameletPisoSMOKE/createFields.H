@@ -20,24 +20,23 @@
     );
 
 
-    Info<< "Preparing additional scalar fields\n" << endl <<
-           "     + thermo.p()"          << endl <<
-           "     + thermo.Z()"          << endl <<
-           "     + thermo.Zvar()"       << endl <<
-           "     + thermo.chi_st()"	<< endl <<
-           "     + thermo.H()"          << endl <<
-           "     + thermo.as()"         << endl << endl;
+    volScalarField& p = thermo.p();
+    const volScalarField& T = thermo.T();
+    const volScalarField& psi = thermo.psi();
 
-        volScalarField& p       = thermo.p();                   // pressure [Pa]
-        volScalarField& Z       = thermo.Z();                   // mixture fraction [-]
-        volScalarField& Zvar    = thermo.Zvar();                // variance of mixture fraction [-]
-        volScalarField& chi_st  = thermo.chi_st();              // scalar dissipation rate [1/s]
-        volScalarField& H       = thermo.H();                   // enthalpy [J/kg]
-        volScalarField& as      = thermo.as();                  // mean absorption coefficient [1/m]
+    Info << "Preparing additional scalar fields" << endl;
+    Info << " * thermo.Z()" 		<< endl;
+    Info << " * thermo.Zvar()" 		<< endl;
+    Info << " * thermo.chi_st()" 	<< endl;
+    Info << " * thermo.H()" 		<< endl;
+    Info << " * thermo.as()" 		<< endl;
+    Info << endl;
 
-	const volScalarField& psi = thermo.psi();
-
-
+    volScalarField& Z     	= thermo.Z();		// mixture fraction [-]
+    volScalarField& Zvar  	= thermo.Zvar();	// variance of mixture fraction [-]
+    volScalarField& chi_st 	= thermo.chi_st();	// scalar dissipation rate [1/s]
+    volScalarField& H  		= thermo.H();    	// enthalpy [J/kg]
+    volScalarField& as  	= thermo.as();   	// mean absorption coefficient [1/m]
 
     Info<< "\nReading field U\n" << endl;
     volVectorField U
@@ -55,11 +54,11 @@
 
     #include "compressibleCreatePhi.H"
 
-    Info<< "Creating turbulence model\n" << endl;
-    autoPtr<compressible::RASModel> turbulence
+    Info << "Creating turbulence model.\n" << nl;
+    autoPtr<compressible::turbulenceModel> turbulence
     (
-        compressible::RASModel::New
-        (
+       compressible::turbulenceModel::New
+       (
             rho,
             U,
             phi,
@@ -67,11 +66,8 @@
         )
     );
 
-
-
     Info<< "Creating field dpdt\n" << endl;
-    volScalarField dpdt =
-        fvc::DDt(surfaceScalarField("phiU", phi/fvc::interpolate(rho)), p);
+    volScalarField dpdt = fvc::DDt(surfaceScalarField("phiU", phi/fvc::interpolate(rho)), p);
 
     Info<< "Creating field kinetic energy K\n" << endl;
     volScalarField K("K", 0.5*magSqr(U));
@@ -138,4 +134,18 @@
         );
 
         dimensionedScalar sigmaSB("stefan_bolzmann", dimensionSet(1,0,-3,-4,0,0,0), 5.6704e-8);
+
+	// Check the gravity
+	if ( (mag(g)).value() != 0.)
+	{
+		Info << endl;
+		Info << "------------------------------------------------------------------" << endl;
+		Info << " WARNING: gravity is turned on                                    " << endl;
+		Info << "          Please consider that this solver is not conceived       " << endl;
+ 		Info << "          for bouyancy driven flows. If you think gravity         " << endl;
+ 		Info << "          plays a non-negligible role, consider the possibility   " << endl;
+  		Info << "          to use the laminarBouyantPimpleSMOKE solver             " << endl;
+		Info << "------------------------------------------------------------------" << endl;
+		Info << endl;
+	}
 

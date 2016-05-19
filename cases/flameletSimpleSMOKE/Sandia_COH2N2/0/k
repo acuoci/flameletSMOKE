@@ -17,7 +17,7 @@ FoamFile
 
 dimensions      [0 2 -2 0 0 0 0];
 
-internalField   uniform 1;
+internalField   uniform 1e-4;
 
 boundaryField
 {
@@ -35,21 +35,20 @@ boundaryField
     }
     outlet
     {
-        type            zeroGradient;
-    }
-    axis
-    {
-        type            empty;
+        type            inletOutlet;
+        inletValue      $internalField;
+        value           $internalField;
     }
     sidewall
     {
-        type            compressible::kqRWallFunction;
-        value           uniform 1;
+        type            inletOutlet;
+        inletValue      $internalField;
+        value           $internalField;
     }
     burnerwall
     {
         type            compressible::kqRWallFunction;
-        value           uniform 1;
+        value           $internalField;
     }
     front
     {
@@ -58,6 +57,10 @@ boundaryField
     back
     {
         type            wedge;
+    }
+    axis
+    {
+        type            empty;
     }
 }
 

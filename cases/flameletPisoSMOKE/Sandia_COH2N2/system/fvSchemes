@@ -27,12 +27,14 @@ gradSchemes
 
 divSchemes
 {
-    div(phi,U)      	bounded Gauss limitedLinearV 1;
-    div(phi,epsilon) 	bounded Gauss limitedLinear 1;
-    div(phi,k)      	bounded Gauss limitedLinear 1;
-    div(phiU,p)		bounded Gauss limitedLinear 1;
+    default none;
 
-    div(phi,H)      	bounded Gauss limitedLinear 1;
+    div(phi,U)      	bounded Gauss limitedLinearV 1;
+    div(phi,epsilon) 	bounded Gauss limitedLinear  1;
+    div(phi,k)      	bounded Gauss limitedLinear  1;
+    div(phiU,p)		bounded Gauss limitedLinear  1;
+
+    div(phi,H)      	bounded Gauss limitedLinear  1;
     div(phi,Z)    	bounded Gauss limitedLimitedLinear 1 0 1;
     div(phi,Zvar)      	bounded Gauss limitedLimitedLinear 1 0 0.25;
 
@@ -41,11 +43,13 @@ divSchemes
 
 laplacianSchemes
 {
-
+    default none;
+	
     laplacian(muEff,U) 		Gauss linear corrected;
     laplacian((rho*(1|A(U))),p) Gauss linear corrected;
     laplacian(DkEff,k)  	Gauss linear corrected; 
 
+    laplacian(Dp,p)             Gauss linear corrected;
     laplacian((rho|A(U)),p) 	Gauss linear corrected;
 
     laplacian(DepsilonEff,epsilon) 	Gauss linear corrected;

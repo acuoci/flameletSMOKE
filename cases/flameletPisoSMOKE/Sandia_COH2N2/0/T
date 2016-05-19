@@ -30,34 +30,35 @@ boundaryField
     inletair           
     {
         type  		fixedValue;
- 	value 		uniform 290;
+ 	value 		$internalField;
     }
 
     outlet          
     {
-        type  		zeroGradient;
+        type            inletOutlet;
+        inletValue      $internalField;
+        value           $internalField;
     }
 
     sidewall       
     {
-        type  		zeroGradient;
+        type            inletOutlet;
+        inletValue      $internalField;
+        value           $internalField;
     }
 
     burnerwall
     {
         type  		zeroGradient;
     }
-
     front
     {
         type            wedge;
     }
-
     back
     {
         type            wedge;
     }
-
     axis
     {
         type            empty;

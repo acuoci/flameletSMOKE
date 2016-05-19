@@ -11,7 +11,7 @@ FoamFile
     format      ascii;
     class       volScalarField;
     location    "0";
-    object      csiv2;
+    object      Zvar;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -26,41 +26,39 @@ boundaryField
 	type 		fixedValue;
         value           uniform 0;
     }
-
     inletair           
     {
 	type 		fixedValue;
         value           uniform 0;
     }
-
     outlet          
     {
-        type            zeroGradient;
+        type            inletOutlet;
+        inletValue      $internalField;
+        value           $internalField;
     }
-
     sidewall       
     {
-        type            zeroGradient;
+        type            inletOutlet;
+        inletValue      $internalField;
+        value           $internalField;
     }
-
     burnerwall       
     {
         type            zeroGradient;
     }
-
-    front    
+    front
     {
         type            wedge;
     }
-
-    back    
+    back
     {
         type            wedge;
     }
-
     axis
     {
         type            empty;
     }
 }
+
 // ************************************************************************* //

@@ -4,8 +4,7 @@
       + fvm::div(phi, U)
       + turbulence->divDevRhoReff(U)
      ==
-        rho*g
-      + fvOptions(rho, U)
+        fvOptions(rho, U)
     );
 
     if (momentumPredictor)

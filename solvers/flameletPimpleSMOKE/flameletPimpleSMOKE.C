@@ -41,6 +41,11 @@ Description
 #include "fvIOoptionList.H"
 #include "OFstream.H"
 
+#if OPENFOAM_VERSION == 30
+#include "localEulerDdtScheme.H"
+#include "fvcSmooth.H"
+#endif
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 int main(int argc, char *argv[])
@@ -48,10 +53,28 @@ int main(int argc, char *argv[])
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
+
+    pimpleControl pimple(mesh);
+
     #include "readMassFlowProperties.H"
     #include "readGravitationalAcceleration.H"
     
-    pimpleControl pimple(mesh);
+    #if OPENFOAM_VERSION == 30
+    
+    #include "createTimeControls.H"
+    #include "createRDeltaT.H"
+    #include "initContinuityErrs.H"
+    #include "createFields.H"
+    #include "createMRF.H"
+    #include "createFvOptions.H"
+
+    if (!LTS)
+    {
+        #include "compressibleCourantNo.H"
+        #include "setInitialDeltaT.H"
+    }
+
+    #else
 
     #include "createFields.H"
     #include "createFvOptions.H"
@@ -60,52 +83,91 @@ int main(int argc, char *argv[])
     #include "compressibleCourantNo.H"
     #include "setInitialDeltaT.H"
 
+    #endif
     
-
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
 
     while (runTime.run())
     {
+    	#if OPENFOAM_VERSION == 30
+
+	#include "readTimeControls.H"
+
+        if (LTS)
+        {
+            #include "setRDeltaT.H"
+        }
+        else
+        {
+            #include "compressibleCourantNo.H"
+            #include "setDeltaT.H"
+        }
+
+    	#else
+
         #include "readTimeControls.H"
         #include "compressibleCourantNo.H"
         #include "setDeltaT.H"
 
+    	#endif
+
         runTime++;
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
-        #include "rhoEqn.H"
+        if (pimple.nCorrPIMPLE() <= 1)
+        {
+            #include "rhoEqn.H"
+        }
 
         // --- Pressure-velocity PIMPLE corrector loop
         while (pimple.loop())
         {
             #include "UEqn.H"
-            #include "HEqn.H"
 	    #include "ZEqn.H"
+            #include "HEqn.H"
 
-           // --- Pressure corrector loop
+            // --- Pressure corrector loop
+	    #if OPENFOAM_VERSION == 30
+            
+	    while (pimple.correct())
+            {
+                if (pimple.consistent())
+                {
+                    #include "pcEqn.H"
+                }
+                else
+                {
+                    #include "pEqn.H"
+                }
+            }
+	    
+            #else
+            
             while (pimple.correct())
             {
                 #include "pEqn.H"
             }
+            
+            #endif
 
             if (pimple.turbCorr())
             {
                 turbulence->correct();
             }
-
-	    rho = thermo.rho();
         }
+
+        rho = thermo.rho();
 
         runTime.write();
 	
 	#include "writeMassFlow.H"
 	#include "outputVariables.H"
 
-        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
+        Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+             << nl << endl;
     }
 
     Info<< "End\n" << endl;

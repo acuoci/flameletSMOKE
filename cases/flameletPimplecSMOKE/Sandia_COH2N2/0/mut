@@ -36,16 +36,9 @@ boundaryField
         type            calculated;
         value           uniform 0;
     }
-    axis
-    {
-        type            empty;
-    }
     sidewall
     {
-        type            mutkWallFunction;
-        Cmu             0.09;
-        kappa           0.41;
-        E               9.8;
+        type            calculated;
         value           uniform 0;
     }
     burnerwall
@@ -63,6 +56,10 @@ boundaryField
     back
     {
         type            wedge;
+    }
+    axis
+    {
+        type            empty;
     }
 }
 

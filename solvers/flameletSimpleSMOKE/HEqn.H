@@ -8,6 +8,7 @@
 		);
 
 		hEqn.relax();
+		fvOptions.constrain(hEqn);
 		hEqn.solve(mesh.solver("H"));
 	}
 
@@ -31,8 +32,11 @@
 		);
 
 		hEqn.relax();
+		fvOptions.constrain(hEqn);
 		hEqn.solve(mesh.solver("H"));
 	}
 
 	thermo.correct();
+
+	Info<< "min/max(T) = " << min(T).value() << ", " << max(T).value() << endl;
 }

@@ -44,12 +44,16 @@ int main(int argc, char *argv[])
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
+    
+    simpleControl simple(mesh);
+
     #include "readMassFlowProperties.H"
     #include "readGravitationalAcceleration.H"
 
-    simpleControl simple(mesh);
-
     #include "createFields.H"
+    #if OPENFOAM_VERSION == 30
+    #include "createMRF.H"
+    #endif
     #include "createFvOptions.H"
     #include "initContinuityErrs.H"
 
@@ -64,9 +68,22 @@ int main(int argc, char *argv[])
         // Pressure-velocity SIMPLE corrector
         {
 		#include "UEqn.H"
-		#include "pEqn.H"
 		#include "ZEqn.H"
 		#include "HEqn.H"
+		
+		// Pressure equations
+		#if OPENFOAM_VERSION == 30
+		if (simple.consistent())
+		{
+		    #include "pcEqn.H"
+		}
+		else
+		{
+		    #include "pEqn.H"
+		}
+		#else
+		#include "pEqn.H"
+		#endif
         }
 
         turbulence->correct();
@@ -76,9 +93,9 @@ int main(int argc, char *argv[])
 	#include "writeMassFlow.H"
 	#include "outputVariables.H"
 
-        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
+        Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+             << nl << endl;
     }
 
     Info<< "End\n" << endl;

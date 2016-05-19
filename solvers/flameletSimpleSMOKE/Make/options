@@ -1,6 +1,8 @@
 EXE_INC = \
       $(OPENFOAM_VERSION) \
-    -I$(OPENSMOKE_LIBRARY_PATH) \
+    -w \
+    -I../flameletSMOKE \
+    -I../../libs/opensmoke++ \
     -I$(BOOST_LIBRARY_PATH)/include \
     -I$(EIGEN_LIBRARY_PATH) \
     -I$(RAPIDXML_LIBRARY_PATH) \

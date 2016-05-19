@@ -94,13 +94,13 @@ solvers
 
 PIMPLE
 {
-    rhoMin          rhoMin [ 1 -3 0 0 0 ] 0.2;
-    rhoMax          rhoMax [ 1 -3 0 0 0 ] 2.0;
+    rhoMin          rhoMin [ 1 -3 0 0 0 ] 0.02;
+    rhoMax          rhoMax [ 1 -3 0 0 0 ] 3.00;
 
     nOuterCorrectors 		1;
     nCorrectors     		2;
     nNonOrthogonalCorrectors 	0;
-    momentumPredictor 		yes;
+    momentumPredictor 		no;
 }
 
 // ************************************************************************* //
