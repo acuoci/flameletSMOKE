@@ -16,7 +16,7 @@ Dictionary LookUpTables
 {
 	@KineticsPreProcessor	KineticMechanism;
 	
-	@Input			/home/chimica2/cuoci/OpenFOAM/cuoci-2.2.x/mySolvers/flameletSMOKE/cases/flameletSimpleSMOKE/Sandia_COH2N2/lookUpTableGeneration/flamelets/Output;
+	@Input			/home/chimica2/cuoci/OpenFOAM/cuoci-3.0.x/mySolvers/flameletSMOKE/cases/lookUpTableGeneration/Sandia_COH2N2/flamelets/Output;
 	@OutputASCII 		Output;
 	@OutputLookUpTable	OutputXML;
 }

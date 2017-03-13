@@ -1,11 +1,10 @@
 EXE_INC = \
       $(OPENFOAM_VERSION) \
     -I../flameletPimpleSMOKE \
-    -I$(OPENSMOKE_LIBRARY_PATH) \
     -I$(BOOST_LIBRARY_PATH)/include \
     -I$(EIGEN_LIBRARY_PATH) \
     -I$(RAPIDXML_LIBRARY_PATH) \
-    -I$(MKL_INCLUDE) \
+    -I$(MKL_PATH)/include \
     -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
     -I$(LIB_SRC)/turbulenceModels \
     -I$(LIB_SRC)/turbulenceModels/compressible/RAS/RASModel \

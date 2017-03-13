@@ -37,7 +37,7 @@ SourceFiles
 
 #include "flameletSMOKEThermo.H"
 #include "heThermo.H"
-#include "flamelets/lookuptablereader/NonAdiabaticFlameletLibraryReader.h"
+#include "flames/flamelets/lookuptablereader/NonAdiabaticFlameletLibraryReader.h"
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

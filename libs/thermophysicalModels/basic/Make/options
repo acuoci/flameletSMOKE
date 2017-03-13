@@ -1,9 +1,10 @@
 EXE_INC = \
-    -I$(OPENSMOKE_LIBRARY_PATH) \
+      $(OPENFOAM_VERSION) \
     -I$(BOOST_LIBRARY_PATH)/include \
     -I$(EIGEN_LIBRARY_PATH) \
     -I$(RAPIDXML_LIBRARY_PATH) \
-    -I$(MKL_INCLUDE) \
+    -I../../../solvers/openSMOKEpp4flameletSMOKE/ \
+    -I$(MKL_PATH)/include \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
