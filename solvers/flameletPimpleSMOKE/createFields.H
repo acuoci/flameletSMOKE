@@ -1,3 +1,7 @@
+    #if OPENFOAM_VERSION >= 40
+    #include "createRDeltaT.H"
+    #endif
+
     Info<< "Reading thermophysical properties\n" << endl;
 
     autoPtr<flameletSMOKEThermo> pThermo
@@ -52,9 +56,20 @@
 
     #include "compressibleCreatePhi.H"
 
+    #if OPENFOAM_VERSION >= 40
+
+    pressureControl pressureControl(p, rho, pimple.dict(), false);
+    mesh.setFluxRequired(p.name());
+
+    #else
+
     dimensionedScalar rhoMax(pimple.dict().lookup("rhoMax"));
     dimensionedScalar rhoMin(pimple.dict().lookup("rhoMin"));
    
+    #endif
+
+    #if OPENFOAM_VERSION < 40
+
     Info<< "Creating turbulence model\n" << endl;
     autoPtr<compressible::RASModel> turbulence
     (
@@ -66,6 +81,22 @@
             thermo
         )
     );
+
+    #else
+
+    Info << "Creating turbulence model.\n" << nl;
+    autoPtr<compressible::turbulenceModel> turbulence
+    (
+      compressible::turbulenceModel::New
+      (
+        rho,
+        U,
+        phi,
+        thermo
+      )
+    );
+
+    #endif
 
     Info<< "Reading flameletProperties dictionary\n" << endl;
     IOdictionary flameletsProperties_
@@ -144,4 +175,8 @@
 	);
 
 	dimensionedScalar sigmaSB("stefan_bolzmann", dimensionSet(1,0,-3,-4,0,0,0), 5.6704e-8);
+      
+        #if OPENFOAM_VERSION >= 40
+        #include "createMRF.H"
+        #endif
 

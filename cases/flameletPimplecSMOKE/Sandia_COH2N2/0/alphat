@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.2.x                                 |
+|  \\    /   O peration     | Version:  dev                                   |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -17,48 +17,72 @@ FoamFile
 
 dimensions      [1 -1 -1 0 0 0 0];
 
-internalField   uniform 0;
+internalField   uniform 1e-3;
 
 boundaryField
 {
-    inletfuel
+    inletfuel           
     {
         type            calculated;
-        value           uniform 0;
+        value           $internalField;
     }
-    inletair
+
+    inletair           
     {
         type            calculated;
-        value           uniform 0;
+        value           $internalField;
     }
-    outlet
+
+    outlet          
     {
         type            calculated;
-        value           uniform 0;
+        value           $internalField;
     }
-    axis
-    {
-        type            empty;
-    }
-    sidewall
+
+    sidewall       
     {
         type            compressible::alphatWallFunction;
         Prt             0.85;
         value           uniform 0;
     }
+
     burnerwall
     {
         type            compressible::alphatWallFunction;
         Prt             0.85;
         value           uniform 0;
     }
+
     front
     {
         type            wedge;
     }
+
     back
     {
         type            wedge;
+    }
+
+    axis
+    {
+        type            empty;
+    }
+
+    movingWall
+    {
+        type            compressible::alphatWallFunction;
+        Prt             0.85;
+        value           uniform 0;
+    }
+    fixedWalls
+    {
+        type            compressible::alphatWallFunction;
+        Prt             0.85;
+        value           uniform 0;
+    }
+    frontAndBack
+    {
+        type            empty;
     }
 }
 

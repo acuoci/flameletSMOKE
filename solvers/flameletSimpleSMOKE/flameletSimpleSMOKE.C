@@ -32,9 +32,22 @@ Description
 
 #include "fvCFD.H"
 #include "flameletSMOKEThermo.H"
+
+#if OPENFOAM_VERSION < 40
 #include "RASModel.H"
+#else
+#include "turbulentFluidThermoModel.H"
+#endif
+#include "bound.H"
 #include "simpleControl.H"
+#if OPENFOAM_VERSION < 40
 #include "fvIOoptionList.H"
+#else
+#include "pressureControl.H"
+#include "fvOptions.H"
+#include "localEulerDdtScheme.H"
+#include "fvcSmooth.H"
+#endif
 #include "OFstream.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -47,11 +60,19 @@ int main(int argc, char *argv[])
     #include "readMassFlowProperties.H"
     #include "readGravitationalAcceleration.H"
 
+    #if OPENFOAM_VERSION < 40
     simpleControl simple(mesh);
+    #else
+    #include "createControl.H"
+    #endif
 
     #include "createFields.H"
     #include "createFvOptions.H"
     #include "initContinuityErrs.H"
+
+    #if OPENFOAM_VERSION >= 40
+    turbulence->validate();
+    #endif
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -64,7 +85,18 @@ int main(int argc, char *argv[])
         // Pressure-velocity SIMPLE corrector
         {
 		#include "UEqn.H"
-		#include "pEqn.H"
+
+    		#if OPENFOAM_VERSION >= 40
+		if (simple.consistent())
+		{
+			#include "pcEqn.H"
+		}
+		else
+		#endif
+		{
+			#include "pEqn.H"
+		}
+
 		#include "ZEqn.H"
 		#include "HEqn.H"
         }

@@ -1,4 +1,6 @@
-    // Solve the Momentum equation
+// Solve the Momentum equation
+
+#if OPENFOAM_VERSION < 40
 
     tmp<fvVectorMatrix> UEqn
     (
@@ -16,3 +18,28 @@
     solve(UEqn() == -fvc::grad(p));
 
     fvOptions.correct(U);
+
+#else
+
+    MRF.correctBoundaryVelocity(U);
+
+    tmp<fvVectorMatrix> tUEqn
+    (
+        fvm::div(phi, U)
+      + MRF.DDt(rho, U)
+      + turbulence->divDevRhoReff(U)
+     ==
+        rho*g +
+        fvOptions(rho, U)
+    );
+    fvVectorMatrix& UEqn = tUEqn.ref();
+
+    UEqn.relax();
+
+    fvOptions.constrain(UEqn);
+
+    solve(UEqn == -fvc::grad(p));
+
+    fvOptions.correct(U);
+
+#endif

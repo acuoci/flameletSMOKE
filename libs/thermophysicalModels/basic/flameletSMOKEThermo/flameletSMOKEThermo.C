@@ -168,6 +168,7 @@ const Foam::volScalarField& Foam::flameletSMOKEThermo::psi() const
     return psi_;
 }
 
+#if OPENFOAM_VERSION < 40
 const Foam::volScalarField& Foam::flameletSMOKEThermo::mu() const
 {
     return mu_;
@@ -177,5 +178,17 @@ const Foam::scalarField& Foam::flameletSMOKEThermo::mu(const label patchi) const
 {
     return mu_.boundaryField()[patchi];
 }	
+#else
+Foam::tmp<Foam::volScalarField> Foam::flameletSMOKEThermo::mu() const
+{
+    return mu_;
+}
+
+Foam::tmp<Foam::scalarField> Foam::flameletSMOKEThermo::mu(const label patchi) const
+{
+    return mu_.boundaryField()[patchi];
+}
+#endif
+
 
 // ************************************************************************* //

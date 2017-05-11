@@ -35,10 +35,22 @@ Description
 
 #include "fvCFD.H"
 #include "flameletSMOKEThermo.H"
+
+#if OPENFOAM_VERSION < 40
 #include "RASModel.H"
+#else
+#include "turbulentFluidThermoModel.H"
+#endif
 #include "bound.H"
 #include "pimpleControl.H"
+#if OPENFOAM_VERSION < 40
 #include "fvIOoptionList.H"
+#else
+#include "pressureControl.H"
+#include "fvOptions.H"
+#include "localEulerDdtScheme.H"
+#include "fvcSmooth.H"
+#endif
 #include "OFstream.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -50,12 +62,27 @@ int main(int argc, char *argv[])
     #include "createMesh.H"
     #include "readMassFlowProperties.H"
     #include "readGravitationalAcceleration.H"
-
+    
+    #if OPENFOAM_VERSION < 40
     pimpleControl pimple(mesh);
+    #else
+    #include "createControl.H"
+    #include "createTimeControls.H"
+    #endif
 
     #include "createFields.H"
     #include "createFvOptions.H"
     #include "initContinuityErrs.H"
+    #include "readTimeControls.H"
+
+    #if OPENFOAM_VERSION >= 40
+    turbulence->validate();
+    if (!LTS)
+    #endif
+    {
+        #include "compressibleCourantNo.H"
+        #include "setInitialDeltaT.H"
+    }
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -64,8 +91,18 @@ int main(int argc, char *argv[])
     while (runTime.run())
     {
         #include "readTimeControls.H"
-        #include "compressibleCourantNo.H"
-        #include "setDeltaT.H"
+
+	#if OPENFOAM_VERSION >= 40
+        if (LTS)
+        {
+            #include "setRDeltaT.H"
+        }
+        else
+	#endif
+        {
+            #include "compressibleCourantNo.H"
+            #include "setDeltaT.H"
+        }
 
         runTime++;
 

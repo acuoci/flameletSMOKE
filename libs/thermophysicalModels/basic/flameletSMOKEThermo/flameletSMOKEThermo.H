@@ -143,9 +143,14 @@ public:
 
         // Access to transport state variables
 
+	#if OPENFOAM_VERSION < 40
         //- Dynamic viscosity of mixture [kg/m/s]
         virtual const volScalarField& mu() const;
-	virtual const scalarField& mu(const label patchi) const;	
+	virtual const scalarField& mu(const label patchi) const;
+	#else
+	virtual tmp<volScalarField> mu() const;
+	virtual tmp<scalarField> mu(const label patchi) const;
+	#endif
 };
 
 

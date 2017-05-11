@@ -25,6 +25,10 @@ In order to generate the lookup tables, the `OpenSMOKE++Suite` framework is requ
 
 Compilation
 -----------
+The flameletSMOKE solver is available for OpenFOAM versions 2.2, 2.3, 2.4, 4.x and dev
+We strongly recommend to use OpenSMOKE-4.x or OpenSMOKE-dev. Please note that since April 2017
+OpenFOAM versions lower than 4.x are not longer supported.
+
 Two different options are available to compile the code:
 1. Minimalist + Intel MKL (recommended): the Intel MKL libraries are used to carry out the most CPU expensive operations
 2. Minimalist: the most expensive CPU operations are carried out by the internal functions and classes directly available in flameletSMOKE
@@ -38,7 +42,7 @@ Two different options are available to compile the code:
 5. Compile the unsteady solvers:
   - from the `solver/flameletPimpleSMOKE` folder type `wmake`
   - from the `solver/flameletPimplecSMOKE` folder type `wmake`
-  - from the `solver/flameletPisoSMOKE` folder type `wmake`
+  - from the `solver/flameletPisoSMOKE` folder type `wmake` (available only for OpenFOAM 2.2, 2.3, and 2.4)
 
 2. Instructions to compile the Minimalist version
 -------------------------------------------------
@@ -49,7 +53,7 @@ Two different options are available to compile the code:
 5. Compile the unsteady solvers:
    - from the `solver/flameletPimpleSMOKE` folder type `wmake`
    - from the `solver/flameletPimplecSMOKE` folder type `wmake`
-   - from the `solver/flameletPisoSMOKE` folder type `wmake`
+   - from the `solver/flameletPisoSMOKE` folder type `wmake` (available only for OpenFOAM 2.2, 2.3, and 2.4)
 
 Run your first case
 -------------------

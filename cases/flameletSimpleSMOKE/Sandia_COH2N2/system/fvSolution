@@ -48,11 +48,8 @@ solvers
 SIMPLE
 {
     nNonOrthogonalCorrectors 0;
-    rhoMin          rhoMin [ 1 -3 0 0 0 ] 0.5;
-    rhoMax          rhoMax [ 1 -3 0 0 0 ] 1.5;
-
-    pMin	    pMin   [1 -1 -2 0 0 0 0] 1e4;
-
+    pMinFactor      0.4;
+    pMaxFactor      1.5;
 
     residualControl
     {

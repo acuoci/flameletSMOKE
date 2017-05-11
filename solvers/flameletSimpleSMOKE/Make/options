@@ -12,6 +12,9 @@ EXE_INC = \
     -I$(LIB_SRC)/sampling/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude \
     -I$(LIB_SRC)/fvOptions/lnInclude \
+    -I$(LIB_SRC)/transportModels/compressible/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels/turbulenceModels/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels/compressible/lnInclude \
     -I$(realpath ../../libs/thermophysicalModels/basic/flameletSMOKEThermo/)
     
 EXE_LIBS = \
@@ -19,9 +22,7 @@ EXE_LIBS = \
     -L$(BOOST_LIBRARY_PATH)/lib \
     $(MKL_LIBS) \
     -lflameletSMOKEThermophysicalModels \
-    -lspecie \
-    -lcompressibleTurbulenceModel \
-    -lcompressibleRASModels \
+    $(OF_SHARED_LIBS) \
     -lfiniteVolume \
     -lsampling \
     -lmeshTools \

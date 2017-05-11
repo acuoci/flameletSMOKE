@@ -50,18 +50,28 @@
 
     #include "compressibleCreatePhi.H"
 
+    #if OPENFOAM_VERSION >= 40
+    
+    	pressureControl pressureControl(p, rho, simple.dict());
+    	mesh.setFluxRequired(p.name());
+    
+    #else
 
-    label pRefCell = 0;
-    scalar pRefValue = 0.0;
-    setRefCell(p, simple.dict(), pRefCell, pRefValue);
+	label pRefCell = 0;
+	scalar pRefValue = 0.0;
+	setRefCell(p, simple.dict(), pRefCell, pRefValue);
 
-    dimensionedScalar pMin
-    (
-        mesh.solutionDict().subDict("SIMPLE").lookup("pMin")
-    );
+	dimensionedScalar pMin
+	(
+		mesh.solutionDict().subDict("SIMPLE").lookup("pMin")
+	);
 
-    dimensionedScalar rhoMax(simple.dict().lookup("rhoMax"));
-    dimensionedScalar rhoMin(simple.dict().lookup("rhoMin"));
+	dimensionedScalar rhoMax(simple.dict().lookup("rhoMax"));
+	dimensionedScalar rhoMin(simple.dict().lookup("rhoMin"));
+
+    #endif
+
+    #if OPENFOAM_VERSION < 40
 
     Info<< "Creating turbulence model\n" << endl;
     autoPtr<compressible::RASModel> turbulence
@@ -74,6 +84,22 @@
             thermo
         )
     );
+
+    #else
+
+    Info << "Creating turbulence model.\n" << nl;
+    autoPtr<compressible::turbulenceModel> turbulence
+    (
+      compressible::turbulenceModel::New
+      (
+        rho,
+        U,
+        phi,
+        thermo
+      )
+    );
+
+    #endif
 
     Info<< "Reading flameletProperties dictionary\n" << endl;
     IOdictionary flameletsProperties_
@@ -136,3 +162,9 @@
 	);
 
 	dimensionedScalar sigmaSB("stefan_bolzmann", dimensionSet(1,0,-3,-4,0,0,0), 5.6704e-8);
+
+        #if OPENFOAM_VERSION >= 40
+        #include "createMRF.H"
+        #endif
+
+        const volScalarField& psi = thermo.psi();

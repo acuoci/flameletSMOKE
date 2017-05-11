@@ -41,11 +41,18 @@ void Foam::pdfFlameletSMOKEThermo<BasicFlameletSMOKEThermo, MixtureType>::calcul
 	const scalarField& muFavre 	= this->mu_favre_.internalField();
 	const scalarField& alphaFavre 	= this->alpha_favre_.internalField();
 
+	#if OPENFOAM_VERSION < 40
 	scalarField& psiCells 		= this->psi_.internalField();
 	scalarField& muCells 		= this->mu_.internalField();
 	scalarField& alphaCells 	= this->alpha_.internalField();
 	scalarField& defectCells 	= this->defect_.internalField();
-
+	#else
+	scalarField& psiCells 		= this->psi_.ref();
+	scalarField& muCells 		= this->mu_.ref();
+	scalarField& alphaCells 	= this->alpha_.ref();
+	scalarField& defectCells 	= this->defect_.ref();
+	#endif
+	
 	forAll(ZCells, celli)
 	{
 		psiCells[celli] 	= RhoReynolds[celli]/pCells[celli];
@@ -64,12 +71,19 @@ void Foam::pdfFlameletSMOKEThermo<BasicFlameletSMOKEThermo, MixtureType>::calcul
 		const fvPatchScalarField& pmuFavre 		= this->mu_favre_.boundaryField()[patchi];
 		const fvPatchScalarField& palphaFavre 		= this->alpha_favre_.boundaryField()[patchi];
 
+		#if OPENFOAM_VERSION < 40
 		fvPatchScalarField& pT 		= this->T_.boundaryField()[patchi];
 		fvPatchScalarField& ppsi 	= this->psi_.boundaryField()[patchi];
 		fvPatchScalarField& pdefect	= this->defect_.boundaryField()[patchi];
 		fvPatchScalarField& pmu 	= this->mu_.boundaryField()[patchi];
 		fvPatchScalarField& palpha 	= this->alpha_.boundaryField()[patchi];
-
+		#else
+		fvPatchScalarField& pT 		= this->T_.boundaryFieldRef()[patchi];
+		fvPatchScalarField& ppsi 	= this->psi_.boundaryFieldRef()[patchi];
+		fvPatchScalarField& pdefect	= this->defect_.boundaryFieldRef()[patchi];
+		fvPatchScalarField& pmu 	= this->mu_.boundaryFieldRef()[patchi];
+		fvPatchScalarField& palpha 	= this->alpha_.boundaryFieldRef()[patchi];
+		#endif
 
 		if (pT.fixesValue())
 		{
@@ -108,11 +122,19 @@ void Foam::pdfFlameletSMOKEThermo<BasicFlameletSMOKEThermo, MixtureType>::update
 	const scalarField& chi_st 	= this->chi_st_.internalField();
 	const scalarField& HCells 	= this->H_.internalField();
 
+	#if OPENFOAM_VERSION < 40
 	scalarField& TCells 		= this->T_.internalField();
 	scalarField& RhoCells 		= this->density_reynolds_.internalField();
 	scalarField& asCells 		= this->as_.internalField();
 	scalarField& muCells 		= this->mu_favre_.internalField();
 	scalarField& alphaCells 	= this->alpha_favre_.internalField();
+	#else
+	scalarField& TCells 		= this->T_.ref();
+	scalarField& RhoCells 		= this->density_reynolds_.ref();
+	scalarField& asCells 		= this->as_.ref();
+	scalarField& muCells 		= this->mu_favre_.ref();
+	scalarField& alphaCells 	= this->alpha_favre_.ref();
+	#endif
 
 	double small_eps = 1.e-6;
 	double small_chi_st = 1.e-8;
@@ -165,12 +187,19 @@ void Foam::pdfFlameletSMOKEThermo<BasicFlameletSMOKEThermo, MixtureType>::update
 			const fvPatchScalarField& pcsiv2 	= this->Zvar_.boundaryField()[patchi];
 			const fvPatchScalarField& pchi_st 	= this->chi_st_.boundaryField()[patchi];
 
+			#if OPENFOAM_VERSION < 40
 			fvPatchScalarField& pt		= this->T_.boundaryField()[patchi];
 			fvPatchScalarField& prho 	= this->density_reynolds_.boundaryField()[patchi];
 			fvPatchScalarField& pas 	= this->as_.boundaryField()[patchi];
 			fvPatchScalarField& pmu 	= this->mu_favre_.boundaryField()[patchi];
 			fvPatchScalarField& palpha 	= this->alpha_favre_.boundaryField()[patchi];
-
+			#else
+			fvPatchScalarField& pt		= this->T_.boundaryFieldRef()[patchi];
+			fvPatchScalarField& prho 	= this->density_reynolds_.boundaryFieldRef()[patchi];
+			fvPatchScalarField& pas 	= this->as_.boundaryFieldRef()[patchi];
+			fvPatchScalarField& pmu 	= this->mu_favre_.boundaryFieldRef()[patchi];
+			fvPatchScalarField& palpha 	= this->alpha_favre_.boundaryFieldRef()[patchi];
+			#endif
 			forAll(pcsi, facei)
 			{
 
@@ -222,11 +251,19 @@ void Foam::pdfFlameletSMOKEThermo<BasicFlameletSMOKEThermo, MixtureType>::update
 				const fvPatchScalarField& pchi_st 	= this->chi_st_.boundaryField()[patchi];
 				const fvPatchScalarField& ph		= this->H_.boundaryField()[patchi];
 
+				#if OPENFOAM_VERSION < 40
 				fvPatchScalarField& pt		= this->T_.boundaryField()[patchi];
 				fvPatchScalarField& prho 	= this->density_reynolds_.boundaryField()[patchi];
 				fvPatchScalarField& pas 	= this->as_.boundaryField()[patchi];
 				fvPatchScalarField& pmu 	= this->mu_favre_.boundaryField()[patchi];
 				fvPatchScalarField& palpha 	= this->alpha_favre_.boundaryField()[patchi];
+				#else
+				fvPatchScalarField& pt		= this->T_.boundaryFieldRef()[patchi];
+				fvPatchScalarField& prho 	= this->density_reynolds_.boundaryFieldRef()[patchi];
+				fvPatchScalarField& pas 	= this->as_.boundaryFieldRef()[patchi];
+				fvPatchScalarField& pmu 	= this->mu_favre_.boundaryFieldRef()[patchi];
+				fvPatchScalarField& palpha 	= this->alpha_favre_.boundaryFieldRef()[patchi];
+				#endif
 
 				forAll(pcsi, facei)
 				{
@@ -276,10 +313,17 @@ void Foam::pdfFlameletSMOKEThermo<BasicFlameletSMOKEThermo, MixtureType>::update
 				const fvPatchScalarField& pcsiv2 	= this->Zvar_.boundaryField()[patchi];
 				const fvPatchScalarField& pchi_st 	= this->chi_st_.boundaryField()[patchi];
 
+				#if OPENFOAM_VERSION < 40
 				fvPatchScalarField& prho 		= this->density_reynolds_.boundaryField()[patchi];
 				fvPatchScalarField& pas 		= this->as_.boundaryField()[patchi];
 				fvPatchScalarField& pmu 		= this->mu_favre_.boundaryField()[patchi];
 				fvPatchScalarField& palpha 		= this->alpha_favre_.boundaryField()[patchi];
+				#else
+				fvPatchScalarField& prho 		= this->density_reynolds_.boundaryFieldRef()[patchi];
+				fvPatchScalarField& pas 		= this->as_.boundaryFieldRef()[patchi];
+				fvPatchScalarField& pmu 		= this->mu_favre_.boundaryFieldRef()[patchi];
+				fvPatchScalarField& palpha 		= this->alpha_favre_.boundaryFieldRef()[patchi];
+				#endif
 
 				forAll(pcsi, facei)
 				{
@@ -334,13 +378,23 @@ void Foam::pdfFlameletSMOKEThermo<BasicFlameletSMOKEThermo, MixtureType>::update
 				const fvPatchScalarField& pcsiv2 	= this->Zvar_.boundaryField()[patchi];
 				const fvPatchScalarField& pchi_st 	= this->chi_st_.boundaryField()[patchi];
 
+				#if OPENFOAM_VERSION < 40
 				fvPatchScalarField& ph			= this->H_.boundaryField()[patchi];
 				fvPatchScalarField& pt			= this->T_.boundaryField()[patchi];
 				fvPatchScalarField& prho 		= this->density_reynolds_.boundaryField()[patchi];
 				fvPatchScalarField& pas 		= this->as_.boundaryField()[patchi];
 				fvPatchScalarField& pmu 		= this->mu_favre_.boundaryField()[patchi];
 				fvPatchScalarField& palpha 		= this->alpha_favre_.boundaryField()[patchi];
-
+				#else
+				fvPatchScalarField& ph			= this->H_.boundaryFieldRef()[patchi];
+				fvPatchScalarField& pt			= this->T_.boundaryFieldRef()[patchi];
+				fvPatchScalarField& prho 		= this->density_reynolds_.boundaryFieldRef()[patchi];
+				fvPatchScalarField& pas 		= this->as_.boundaryFieldRef()[patchi];
+				fvPatchScalarField& pmu 		= this->mu_favre_.boundaryFieldRef()[patchi];
+				fvPatchScalarField& palpha 		= this->alpha_favre_.boundaryFieldRef()[patchi];
+				#endif
+			
+	
 				forAll(pcsi, facei)
 				{
 
@@ -461,7 +515,11 @@ void Foam::pdfFlameletSMOKEThermo<BasicFlameletSMOKEThermo, MixtureType>::update
 		{
 			if(j<flamelets_library.number_of_species())
 			{
+				#if OPENFOAM_VERSION < 40
 				omega_[j].internalField()[celli] = extracted[j+1];
+				#else
+				omega_[j].ref()[celli] = extracted[j+1];
+				#endif
 			}
 		}
 	}
@@ -510,7 +568,11 @@ void Foam::pdfFlameletSMOKEThermo<BasicFlameletSMOKEThermo, MixtureType>::update
 			{
 				if(j<flamelets_library.number_of_species())
 				{
+					#if OPENFOAM_VERSION < 40
 					omega_[j].boundaryField()[patchi][facei] = extracted[j+1];
+					#else
+					omega_[j].boundaryFieldRef()[patchi][facei] = extracted[j+1];
+					#endif
 				}
 			}
 		}

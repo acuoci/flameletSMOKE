@@ -30,10 +30,16 @@ Description
 
 \*---------------------------------------------------------------------------*/
 
+#if OPENFOAM_VERSION >= 40
+	Compilation_Error_The_PISO_Solver_Is_Not_Longer_Supported_For_OpenFOAM_4_or_greater
+#else
+
 #include "fvCFD.H"
 #include "flameletSMOKEThermo.H"
+
 #include "RASModel.H"
 #include "bound.H"
+#include "pimpleControl.H"
 #include "fvIOoptionList.H"
 #include "OFstream.H"
 
@@ -100,6 +106,6 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
+#endif
 
 // ************************************************************************* //

@@ -8,63 +8,59 @@
 FoamFile
 {
     version     2.2;
-    format      binary;
-    class       volScalarField;
+    format      ascii;
+    class       volVectorField;
     location    "0";
-    object      epsilon;
+    object      U;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 2 -3 0 0 0 0];
+dimensions      [0 1 -1 0 0 0 0];
 
-internalField   uniform 1;
+internalField   uniform (0 0.75 0);
 
 boundaryField
 {
-    inletfuel
+    inletfuel           
     {
-	type            compressible::turbulentMixingLengthDissipationRateInlet;
-	mixingLength	0.0003206;
-        value           uniform 3.337e6;
+	type 		fixedValue;
+        value           uniform (0 76 0);
     }
-    
-    inletair
+    inletair           
     {
-	type		compressible::turbulentMixingLengthDissipationRateInlet;
-	mixingLength	0.021;
-        value           uniform 0.00041;
+	type 		fixedValue;
+        value           uniform (0 0.75 0);
+    }
 
-    }
-    
-    outlet
+    outlet          
     {
-        type            zeroGradient;
+	type 		zeroGradient;
     }
-    
-    axis
+
+    sidewall       
     {
-        type            empty;
+	type 		zeroGradient;
     }
-    
-    sidewall
+
+    burnerwall      
     {
-        type 		zeroGradient;
+        type            fixedValue;
+        value           uniform (0 0 0);
     }
-    
-    burnerwall
-    {
-        type            compressible::epsilonWallFunction;
-	value		uniform 0.00041;
-    }
-    
+
     front
     {
         type            wedge;
     }
-    
+
     back
     {
         type            wedge;
+    }
+
+    axis
+    {
+        type            empty;
     }
 }
 

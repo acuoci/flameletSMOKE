@@ -31,7 +31,7 @@ if (varianceEquation == false)
 else
 {
 	Info << "Algebraic equation for Zvar" << endl;
-	scalarField& ZvarCells = Zvar.internalField();
+	scalarField& ZvarCells = Zvar.ref();
 	ZvarCells = Cg*turbulence->mut()*magSqr(fvc::grad(Z))*turbulence->k()/(Cd*rho*(turbulence->epsilon()+epsilon_small));
 }
 
