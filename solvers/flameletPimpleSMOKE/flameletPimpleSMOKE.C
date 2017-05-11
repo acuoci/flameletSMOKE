@@ -107,7 +107,12 @@ int main(int argc, char *argv[])
         runTime++;
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
-        #include "rhoEqn.H"
+	#if OPENFOAM_VERSION >= 40
+	if (pimple.nCorrPIMPLE() <= 1)
+	#endif
+        {
+            #include "rhoEqn.H"
+        }
 
         // --- Pressure-velocity PIMPLE corrector loop
         while (pimple.loop())
@@ -116,10 +121,19 @@ int main(int argc, char *argv[])
             #include "HEqn.H"
 	    #include "ZEqn.H"
 
-           // --- Pressure corrector loop
+	    // --- Pressure corrector loop
             while (pimple.correct())
             {
-                #include "pEqn.H"
+		#if OPENFOAM_VERSION >= 40
+                if (pimple.consistent())
+                {
+                    #include "pcEqn.H"
+                }
+                else
+		#endif
+                {
+                    #include "pEqn.H"
+                }
             }
 
             if (pimple.turbCorr())
@@ -135,9 +149,9 @@ int main(int argc, char *argv[])
 	#include "writeMassFlow.H"
 	#include "outputVariables.H"
 
-        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
+        Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+             << nl << endl;
     }
 
     Info<< "End\n" << endl;

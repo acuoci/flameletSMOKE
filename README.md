@@ -41,7 +41,6 @@ Two different options are available to compile the code:
 4. Compile the steady-state solver: from the `solvers/flameletSimpleSMOKE` folder type `wmake`
 5. Compile the unsteady solvers:
   - from the `solver/flameletPimpleSMOKE` folder type `wmake`
-  - from the `solver/flameletPimplecSMOKE` folder type `wmake`
   - from the `solver/flameletPisoSMOKE` folder type `wmake` (available only for OpenFOAM 2.2, 2.3, and 2.4)
 
 2. Instructions to compile the Minimalist version
@@ -52,7 +51,6 @@ Two different options are available to compile the code:
 4. Compile the steady-state solver: from the `solvers/flameletSimpleSMOKE` folder type `wmake`
 5. Compile the unsteady solvers:
    - from the `solver/flameletPimpleSMOKE` folder type `wmake`
-   - from the `solver/flameletPimplecSMOKE` folder type `wmake`
    - from the `solver/flameletPisoSMOKE` folder type `wmake` (available only for OpenFOAM 2.2, 2.3, and 2.4)
 
 Run your first case

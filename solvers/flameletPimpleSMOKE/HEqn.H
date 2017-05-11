@@ -40,4 +40,6 @@
 	}
 
 	thermo.correct();
+
+        Info<< " * Tgas min/max = " << min(thermo.T()).value() << ", " << max(thermo.T()).value() << endl;
 }
