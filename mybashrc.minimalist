@@ -2,6 +2,9 @@
 #OpenFOAM-dev is equivalent to 40
 export OPENFOAM_VERSION='-DOPENFOAM_VERSION=40'
 
+#If OpenFOAM dev version is used, this must be equal to 1
+export DEVVERSION='-DDEVVERSION=0'
+
 #Shared libraries (please select according to the OpenFOAM version)
 #OpenFOAM <=30
 #export OF_SHARED_LIBS=' -lspecie -lcompressibleTurbulenceModel -lcompressibleRASModels '

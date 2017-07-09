@@ -132,6 +132,12 @@ public:
 
         // Fields derived from thermodynamic state variables
 
+        //- Add the given density correction to the density field.
+        //  Used to update the density field following pressure solution.
+        //  For psiThermo does nothing.
+        virtual void correctRho(const volScalarField& deltaRho);
+
+
         //- Density [kg/m^3] - uses current value of pressure
         virtual tmp<volScalarField> rho() const;
 	virtual tmp<scalarField> rho(const label patchi) const;

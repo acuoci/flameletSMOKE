@@ -1,5 +1,6 @@
 EXE_INC = \
       $(OPENFOAM_VERSION) \
+      $(DEVVERSION) \
     -I$(BOOST_LIBRARY_PATH)/include \
     -I$(EIGEN_LIBRARY_PATH) \
     -I$(RAPIDXML_LIBRARY_PATH) \

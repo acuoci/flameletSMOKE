@@ -26,6 +26,11 @@ thermoType
     energy          sensibleEnthalpy;
 }
 
+thermoProperties
+{
+	kineticMechanism "kinetics";
+}
+
 mixture
 {
     specie

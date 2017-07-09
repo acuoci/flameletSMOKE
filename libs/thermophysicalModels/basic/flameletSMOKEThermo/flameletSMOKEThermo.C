@@ -168,6 +168,9 @@ const Foam::volScalarField& Foam::flameletSMOKEThermo::psi() const
     return psi_;
 }
 
+void Foam::flameletSMOKEThermo::correctRho(const Foam::volScalarField& deltaRho)
+{}
+
 #if OPENFOAM_VERSION < 40
 const Foam::volScalarField& Foam::flameletSMOKEThermo::mu() const
 {
