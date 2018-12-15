@@ -9,7 +9,11 @@ fvScalarMatrix ZEqn
 );
 
 ZEqn.relax();
+#if OPENFOAM_VERSION >=60
+ZEqn.solve("Z");
+#else
 ZEqn.solve(mesh.solver("Z"));
+#endif
 
 if (varianceEquation == false)
 {
@@ -26,7 +30,11 @@ if (varianceEquation == false)
 	);
 
 	ZvarEqn.relax();
+	#if OPENFOAM_VERSION >=60
+	ZvarEqn.solve("Zvar");
+	#else
 	ZvarEqn.solve(mesh.solver("Zvar"));
+	#endif
 }
 else
 {

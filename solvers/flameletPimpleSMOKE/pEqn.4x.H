@@ -45,7 +45,11 @@ if (pimple.transonic())
         // Relax the pressure equation to ensure diagonal-dominance
         pEqn.relax();
 
-        pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
+	#if OPENFOAM_VERSION >=60
+	pEqn.solve(p.select(pimple.finalInnerIter()));
+	#else
+	pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
+	#endif
 
         if (pimple.finalNonOrthogonalIter())
         {
@@ -66,7 +70,11 @@ else
             fvOptions(psi, p, rho.name())
         );
 
-        pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
+	#if OPENFOAM_VERSION >=60
+	pEqn.solve(p.select(pimple.finalInnerIter()));
+	#else
+	pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
+	#endif
 
         if (pimple.finalNonOrthogonalIter())
         {

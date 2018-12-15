@@ -8,7 +8,11 @@
 		);
 
 		hEqn.relax();
+		#if OPENFOAM_VERSION >=60
+		hEqn.solve("H");
+		#else
 		hEqn.solve(mesh.solver("H"));
+		#endif
 	}
 
 	else
@@ -31,7 +35,11 @@
 		);
 
 		hEqn.relax();
+		#if OPENFOAM_VERSION >=60
+		hEqn.solve("H");
+		#else
 		hEqn.solve(mesh.solver("H"));
+		#endif
 	}
 
 	thermo.correct();

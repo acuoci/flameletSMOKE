@@ -108,7 +108,11 @@ int main(int argc, char *argv[])
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
 	#if OPENFOAM_VERSION >= 40
+	#if OPENFOAM_VERSION >= 60
+	{}
+	#else
 	if (pimple.nCorrPIMPLE() <= 1)
+	#endif
 	#endif
         {
             #include "rhoEqn.H"

@@ -10,8 +10,12 @@
 
 		
 		hEqn.relax();
-    		fvOptions.constrain(hEqn);
+    		fvOptions.constrain(hEqn);	
+		#if OPENFOAM_VERSION >=60
+		hEqn.solve("H");
+		#else
 		hEqn.solve(mesh.solver("H"));
+		#endif
 	}
 
 	else
@@ -36,7 +40,11 @@
 
 		hEqn.relax();
     		fvOptions.constrain(hEqn);
+		#if OPENFOAM_VERSION >=60
+		hEqn.solve("H");
+		#else
 		hEqn.solve(mesh.solver("H"));
+		#endif
 	}
 
 	thermo.correct();
