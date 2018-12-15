@@ -97,7 +97,9 @@ U.correctBoundaryConditions();
 fvOptions.correct(U);
 K = 0.5*magSqr(U);
 
+#if OPENFOAM_VERSION >=50
 pressureControl.limit(p);
+#endif
 p.correctBoundaryConditions();
 rho = thermo.rho();
 

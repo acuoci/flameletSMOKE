@@ -34,12 +34,14 @@
 
             // Relax the pressure equation to ensure diagonal-dominance
             pEqn.relax();
-
+	
+	    #if OPENFOAM_VERSION >= 50
             pEqn.setReference
             (
                 pressureControl.refCell(),
                 pressureControl.refValue()
             );
+	    #endif
 
             pEqn.solve();
 
@@ -63,11 +65,13 @@
                 fvOptions(psi, p, rho.name())
             );
 
-            pEqn.setReference
+            #if OPENFOAM_VERSION >=50
+	    pEqn.setReference
             (
                 pressureControl.refCell(),
                 pressureControl.refValue()
             );
+	    #endif
 
             pEqn.solve();
 
@@ -88,7 +92,9 @@
     U.correctBoundaryConditions();
     fvOptions.correct(U);
 
+    #if OPENFOAM_VERSION >= 50
     pressureControl.limit(p);
+    #endif
 
     // For closed-volume cases adjust the pressure and density levels
     // to obey overall mass continuity

@@ -56,7 +56,7 @@
 
     #include "compressibleCreatePhi.H"
 
-    #if OPENFOAM_VERSION >= 40
+    #if OPENFOAM_VERSION > 40
 
     pressureControl pressureControl(p, rho, pimple.dict(), false);
     mesh.setFluxRequired(p.name());

@@ -46,7 +46,9 @@ Description
 #if OPENFOAM_VERSION < 40
 #include "fvIOoptionList.H"
 #else
+#if OPENFOAM_VERSION >=50
 #include "pressureControl.H"
+#endif
 #include "fvOptions.H"
 #include "localEulerDdtScheme.H"
 #include "fvcSmooth.H"
