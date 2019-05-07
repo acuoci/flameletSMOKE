@@ -21,7 +21,7 @@ Optional libraries (strongly recommended)
 
 External software
 -----------------
-In order to generate the lookup tables, the `OpenSMOKE++Suite` framework is required (alberto.cuoci@polimi.it).
+In order to generate the lookup tables, the [`OpenSMOKE++Suite`][1] framework is required (alberto.cuoci@polimi.it).
 
 Compilation
 -----------
@@ -65,3 +65,5 @@ The `cases` folder contains simple test cases (Sandia CO/H2/N2 turbulent jet fla
    Even if you are interested in steady state conditions, we strongly suggest to always start with unsteady calculations to create a reasonable first-guess solution for the application of the steady state solver. 
 
 3. Steady state simuation: open the `cases/flameletSimpleSMOKE/Sandia_COH2N2` folder, build the mesh using the `blockMesh` utility, and run the case using the `flameletSimpleSMOKE` solver. 
+
+[1]: https://www.opensmokepp.polimi.it/
